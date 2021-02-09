@@ -29,9 +29,28 @@ describe Oystercard do
 
 	describe '#touch_in' do 
 		it { is_expected.to respond_to(:touch_in) }
+		
+		it 'should update the status of the card to "in journey"' do
+			subject.touch_in
+			expect( subject.in_journey ).to be true
+		end
 	end
 
-	describe '#touch_in' do 
+	describe '#touch_out' do 
 		it { is_expected.to respond_to(:touch_out) }
+
+		it 'should update the status of the card to "not in journey"' do
+			subject.touch_in
+			subject.touch_out
+			expect(subject.in_journey).to be false
+		end
+	end
+
+	describe '#in_journey' do 
+		it { is_expected.to respond_to(:in_journey) }
+		
+		it 'should not be in a journey by default' do
+			expect(subject.in_journey).to be false
+		end
 	end
 end
