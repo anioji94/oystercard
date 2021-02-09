@@ -1,6 +1,7 @@
 require 'oystercard'
 
 describe Oystercard do
+station = "Acton Town"
 min = Oystercard::MINIMUM_FARE
 	describe '#initialize' do
 		it 'should have a default balance of zero' do
@@ -19,23 +20,25 @@ min = Oystercard::MINIMUM_FARE
 	end
 
 	describe '#touch_in' do
-		it { is_expected.to respond_to(:touch_in) }
+		it { is_expected.to respond_to(:touch_in).with(1).argument }
 
 		it 'should update the status of the card to "in journey"' do
       subject.top_up(min)
-			subject.touch_in
+			subject.touch_in(station)
 			expect( subject.in_journey ).to be true
 		end
 
     it 'should not let us touch in without at least £1 on the card' do
-			expect { subject.touch_in }.to raise_error "You need at least £#{min}"
+			expect { subject.touch_in(station) }.to raise_error "You need at least £#{min}"
     end
-
+=begin
     it 'should save which station you touched in' do
-      subject.top_up(min)
-			allow(subject).to receive(:station).and_return("Acton Town")
-			expect (subject.station).to eq("Acton Town")
-    end
+			subject.top_up(min)
+			station = double('station', origin: 'Acton Town')
+			
+			expect (station.origin).to eq('Acton Town')
+		end
+=end
 	end
 
 	describe '#touch_out' do
@@ -43,14 +46,14 @@ min = Oystercard::MINIMUM_FARE
 
 		it 'should update the status of the card to "not in journey"' do
       subject.top_up(1)
-			subject.touch_in
+			subject.touch_in(station)
 			subject.touch_out
 			expect(subject.in_journey).to be false
 		end
 
 		it 'should update the balance after a trip' do
 			subject.top_up(min)
-			subject.touch_in
+			subject.touch_in(station)
 			expect {subject.touch_out}.to change {subject.balance}.by (-min)
 		end
 	end

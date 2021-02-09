@@ -13,7 +13,7 @@ class Oystercard
 		@balance += amount
 	end
 
-	def touch_in
+	def touch_in(station)
 		fail "You need at least £#{MINIMUM_FARE}" if @balance < MINIMUM_FARE
 		@in_journey = true
 	end
