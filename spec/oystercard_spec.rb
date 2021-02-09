@@ -18,4 +18,20 @@ describe Oystercard do
 		end
 	end
 
+	describe '#pay' do
+		it { is_expected.to respond_to(:pay).with(1).argument }
+
+		it 'deducts a fee everytime I pay for a journey' do
+			subject.top_up(5)
+			expect( subject.pay(3) ).to eq(2)
+		end
+	end
+
+	describe '#touch_in' do 
+		it { is_expected.to respond_to(:touch_in) }
+	end
+
+	describe '#touch_in' do 
+		it { is_expected.to respond_to(:touch_out) }
+	end
 end
