@@ -31,6 +31,11 @@ min = Oystercard::MINIMUM_FARE
 			expect { subject.touch_in }.to raise_error "You need at least £#{min}"
     end
 
+    it 'should save which station you touched in' do
+      subject.top_up(min)
+			allow(subject).to receive(:station).and_return("Acton Town")
+			expect (subject.station).to eq("Acton Town")
+    end
 	end
 
 	describe '#touch_out' do

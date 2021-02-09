@@ -37,5 +37,7 @@ end
 
 
 # card = Oystercard.new
+# subject.top_up(5)
 # card.touch_in
+# in_journey -> true
 # fail
