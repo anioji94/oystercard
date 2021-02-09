@@ -1,5 +1,6 @@
 class Oystercard
 	LIMIT = 90
+	MINIMUM_FARE = 1
 	attr_reader :balance, :in_journey
 
 	def initialize
@@ -12,27 +13,29 @@ class Oystercard
 		@balance += amount
 	end
 
-	def pay(amount)
-		@balance -= amount
-	end
-
 	def touch_in
+		fail "You need at least £#{MINIMUM_FARE}" if @balance < MINIMUM_FARE
 		@in_journey = true
 	end
 
 	def touch_out
+		pay(MINIMUM_FARE)
 		@in_journey = false
 	end
 
 	def in_journey?
 		@in_journey
 	end
+
+private
+
+	def pay(amount)
+		@balance -= amount
+	end
+
 end
 
 
 # card = Oystercard.new
-# card.top_up(5)
 # card.touch_in
-# return => true
-# card.touch_out
-# return => false
+# fail
